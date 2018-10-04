@@ -4,11 +4,13 @@
 
 ## Overview ##
 
-In this hands-on lab (HOL), you are a newly hired data scientist for a company building an application named ContosoBNB, which is modeled after a short-term vacation rental platform like [Airbnb](https://www.airbnb.com/). Your goal is to begin building, training, and tuning a machine learning model to suggest a rental rate that maximizes revenue for rental property owners.
+In this hands-on lab (HOL), you are a newly hired data scientist for a company building an application named ContosoBNB, which is modeled after a short-term vacation rental platform like [Airbnb](https://www.airbnb.com/). Your goal is to begin building, training, tuning and deploying a machine learning model to suggest a rental rate that maximizes revenue for rental property owners.
 
 First, you will reduce the complexity of building your development environment by creating an instance of the Data Science Virtual Machine (DSVM): a virtual-machine (VM) image built specifically for data-science workloads. The DSVM is hosted in Microsoft Azure, and it has editions built for Windows Server, Ubuntu Linux, and CentOS Linux. The DSVM comes preconfigured with many popular open-source tools, including Jupyter and RStudio. This VM also contains scikit-learn, which is a free, open-source machine learning toolkit for Python programmers.
 
 After you create a Linux operating system (OS)-based DSVM and connect to it, you will import a dataset and then use the scikit-learn API to create and refine an ML model to use with your dataset.
+
+Once you have fininshed creating your model, we will use Azure Machine Learning to host your model in a RESTful web app, running in a Docker container on Azure Container Instances. This will enable you to consume your model and embed intelligence into other applications!
 
 <a name="Objectives"></a>
 
@@ -25,6 +27,7 @@ In this HOL, you will learn how to:
 - Use scikit-learn to split the data into separate datasets for training and testing
 - Use scikit-learn to create an ML model
 - Use scikit-learn to analyze the model's accuracy
+- Use Azure Machine Learning to deploy your model as a web service. 
 
 <a name="Prerequisites"></a>
 
@@ -53,6 +56,7 @@ This HOL includes the following exercises:
 - [Exercise 2: Connect to the DSVM](#Exercise2)
 - [Exercise 3: Download a dataset and prepare a Jupyter notebook](#Exercise3)
 - [Exercise 4: Import data, clean data, and make predictions using Python/scikit-learn in a Jupyter notebook](#Exercise4)
+- [Exercise 5: Use Azure Machine Learning Services to operationalize the model onto Azure Container Instances](#Excerise5)
 
 <a name="Exercise1"></a>
 
@@ -301,7 +305,60 @@ Once the notebook is fully displayed, continue to Exercise 4.
 
 *This exercise is performed in the Jupyter notebook you opened at the end of Exercise 3. The Jupyter notebook includes all of the instructions for the exercise, which includes a series of code samples to run.*
 
-**Important: After you done with Exercise 4, be sure to shut down the DSVM in Azure.**
+## Exercise 5: Operationalize the model using Azure Machine Learning Services ##
+
+Next, we will take the model you have created, and use it to create a web service.
+To do this, we will use [Azure Machine Learning Service](https://azure.microsoft.com/en-us/services/machine-learning-service/), which make it easy for you to take a model and deploy a web service with it in either Azure Container Instances or Azure Kubernetes Services.  
+
+1. Create an Azure Machine Learning Workspace 
+
+    Sign in to the Azure portal using the credentials for the Azure subscription you'll use. If you don't have an Azure subscription, create a free account now.
+    ![Azure portal](images/aml-create-in-portal/portal-dashboard.png)
+
+    Select the **Create a resource** button (+) in the upper-left corner of the portal.
+
+    ![Create a resource in Azure portal](images/aml-create-in-portal/portal-create-a-resource.png)
+
+    Enter **Machine Learning** in the search bar. Select the search result named **Machine Learning service workspace**.
+
+    ![search for workspace](images/aml-create-in-portal/allservices-search.PNG)
+
+    In the **Machine Learning service workspace** pane, scroll to the bottom and select **Create** to begin.
+
+    ![create](images/aml-create-in-portal/portal-create-button.png)
+
+    In the **ML service Workspace** pane, configure your workspace.
+
+    Field|Description
+    ---|---
+    Workspace name |Enter a unique name that identifies your workspace.  Here we'll use docs-ws. Names must be unique across the resource group. Use a name that is easy to recall and differentiate from the workspaces created by others.  
+    Subscription |Choose the Azure subscription that you want to use. If you have multiple subscriptions, choose the appropriate subscription in which the resource is billed.
+    Resource group | Use an existing resource group in your subscription, or enter a name to create a new resource group. A resource group is a container that holds related resources for an Azure solution.  Here we'll use docs-aml. 
+    Location | Choose the location closest to your users and the data resources. This is where the workspace is created.
+
+    ![create workspace](images/aml-create-in-portal/workspace-create.png)
+
+    Select **Create** to begin the creation process.  It can take a few moments to create the workspace.
+
+    To check on the status of the deployment, select the Notifications icon (bell) on the toolbar.
+
+    ![create workspace](images/aml-create-in-portal/notifications.png)
+
+    When finished, a deployment success message appears.  It is also present in the notifications section.   Click on the **Go to resource** button to view the new workspace.
+2. Make sure your subscription is registered to use Azure Container Instance (ACI). 
+    We're going to deploy the model as a webservice to ACI. To do this, you need to verify if your subscription is registered to use ACI.
+    run
+    ```
+    az provider show -n Microsoft.ContainerInstance -o table
+    ``` 
+    if ACI does not show up as registered, run:
+    ```
+    az provider register -n Microsoft.ContainerInstance
+    ```
+
+1. Return to the notebooks dashboard at <http://localhost:8888> and double-click to open the **/BnB** directory, and then double-click **Machine_Learning_HOL_Ex5.ipynb**. You will do the remainder of the work to deploy the model as a web service in this notebook. 
+
+**Important: After you done with the Excercises, be sure to shut down the DSVM in Azure. In addition, if you did Excercise 5, ensure you've deleted the Machine Learning Workspace.**
 
 In this exercise, you will import data from the listings.csv file, clean the data, and then build a model to predict the price of a rental property. You should perform this entire exercise in the Jupyter notebook you opened at the end of Exercise 3.
 
