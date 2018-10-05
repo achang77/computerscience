@@ -35,7 +35,7 @@ In this HOL, you will learn how to:
 
 The following are required to complete this HOL:
 
-- An Azure subscription, which will be used to create the VM and query Data Lake. Students can get access through [Azure for Students](http://aka.ms/azure4students).
+- An Azure subscription, which will be used to create the VM and deploy the webservice. Students can get access through [Azure for Students](http://aka.ms/azure4students).
 - [X2Go](https://wiki.x2go.org/doku.php/download:start), an [Xfce](https://xfce.org/) remote-desktop client. [Installation instructions](https://wiki.x2go.org/doku.php/doc:installation:x2goclient).
 
 **Note:** To quickly verify your student status, use your school-issued email address like "your_name@your_school.edu" or equivalent. This will become your Microsoft Account that you can use to login to the [Azure Portal](http://portal.azure.com).
@@ -305,58 +305,14 @@ Once the notebook is fully displayed, continue to Exercise 4.
 
 *This exercise is performed in the Jupyter notebook you opened at the end of Exercise 3. The Jupyter notebook includes all of the instructions for the exercise, which includes a series of code samples to run.*
 
+<a name="Exercise5"></a>
+
 ## Exercise 5: Operationalize the model using Azure Machine Learning Services ##
 
 Next, we will take the model you have created, and use it to create a web service.
 To do this, we will use [Azure Machine Learning Service](https://azure.microsoft.com/en-us/services/machine-learning-service/), which make it easy for you to take a model and deploy a web service with it in either Azure Container Instances or Azure Kubernetes Services.  
 
-1. Create an Azure Machine Learning Workspace 
-
-    Sign in to the Azure portal using the credentials for the Azure subscription you'll use. If you don't have an Azure subscription, create a free account now.
-    ![Azure portal](images/aml-create-in-portal/portal-dashboard.png)
-
-    Select the **Create a resource** button (+) in the upper-left corner of the portal.
-
-    ![Create a resource in Azure portal](images/aml-create-in-portal/portal-create-a-resource.png)
-
-    Enter **Machine Learning** in the search bar. Select the search result named **Machine Learning service workspace**.
-
-    ![search for workspace](images/aml-create-in-portal/allservices-search.PNG)
-
-    In the **Machine Learning service workspace** pane, scroll to the bottom and select **Create** to begin.
-
-    ![create](images/aml-create-in-portal/portal-create-button.png)
-
-    In the **ML service Workspace** pane, configure your workspace.
-
-    Field|Description
-    ---|---
-    Workspace name |Enter a unique name that identifies your workspace.  Here we'll use docs-ws. Names must be unique across the resource group. Use a name that is easy to recall and differentiate from the workspaces created by others.  
-    Subscription |Choose the Azure subscription that you want to use. If you have multiple subscriptions, choose the appropriate subscription in which the resource is billed.
-    Resource group | Use an existing resource group in your subscription, or enter a name to create a new resource group. A resource group is a container that holds related resources for an Azure solution.  Here we'll use docs-aml. 
-    Location | Choose the location closest to your users and the data resources. This is where the workspace is created.
-
-    ![create workspace](images/aml-create-in-portal/workspace-create.png)
-
-    Select **Create** to begin the creation process.  It can take a few moments to create the workspace.
-
-    To check on the status of the deployment, select the Notifications icon (bell) on the toolbar.
-
-    ![create workspace](images/aml-create-in-portal/notifications.png)
-
-    When finished, a deployment success message appears.  It is also present in the notifications section.   Click on the **Go to resource** button to view the new workspace.
-2. Make sure your subscription is registered to use Azure Container Instance (ACI). 
-    We're going to deploy the model as a webservice to ACI. To do this, you need to verify if your subscription is registered to use ACI.
-    run
-    ```
-    az provider show -n Microsoft.ContainerInstance -o table
-    ``` 
-    if ACI does not show up as registered, run:
-    ```
-    az provider register -n Microsoft.ContainerInstance
-    ```
-
-1. Return to the notebooks dashboard at <http://localhost:8888> and double-click to open the **/BnB** directory, and then double-click **Machine_Learning_HOL_Ex5.ipynb**. You will do the remainder of the work to deploy the model as a web service in this notebook. 
+1. Return to the notebooks dashboard at <http://localhost:8888> and double-click to open the **/BnB** directory, and then double-click **Machine_Learning_HOL_Ex5.ipynb**. You will do the remainder of the work to create an Azure Machine Learning Workspace and deploy the model as a web service in this notebook. 
 
 **Important: After you done with the Excercises, be sure to shut down the DSVM in Azure. In addition, if you did Excercise 5, ensure you've deleted the Machine Learning Workspace.**
 
