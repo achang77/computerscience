@@ -218,7 +218,7 @@ Perform the following procedures in the X2Go session window that is connected to
 
     ![Browser](images/Browser.jpg "DSVM")
 
-1. Browse to the following address: <https://github.com/Microsoft/computerscience/tree/master/Azure%20University%20Tour/MachineLearningHOL/content>
+1. Browse to the following address: <https://github.com/csteegz/computerscience/tree/master/Azure%20University%20Tour/MachineLearningHOL/content>
 
 1. From the list of files in this directory, locate and click **listings.csv.gz**, and then click **Download** to save the file. The file will automatically save to the Downloads directory.
 
